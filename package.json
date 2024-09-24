@@ -1,0 +1,15 @@
+{
+  "name": "dkp-monitoring-tool",
+  "version": "1.0.0",
+  "description": "A DKP log file monitoring tool",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^13.0.0"
+  },
+  "dependencies": {
+    "chokidar": "^3.5.2"
+  }
+}

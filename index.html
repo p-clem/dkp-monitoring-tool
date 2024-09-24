@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log File Monitor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    pre {
+      border: 1px solid #ccc;
+      padding: 10px;
+      height: 300px;
+      overflow-y: scroll;
+      white-space: pre-wrap;
+      background-color: #f4f4f4;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Select a Log File to Monitor</h1>
+  <input type="file" id="fileInput" />
+  <h2>Log Output:</h2>
+  <pre id="logOutput"></pre>
+
+  <script>
+    const {ipcRenderer} = require('electron');
+
+    const fileInput = document.getElementById('fileInput');
+    const logOutput = document.getElementById('logOutput');
+
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const filePath = file.path;
+        console.log(`Selected file: ${filePath}`);
+
+        // Send the file path to the main process to start monitoring
+        ipcRenderer.send('monitor-file', filePath);
+      }
+    });
+
+    // Listen for updates from the main process
+    ipcRenderer.on('file-updated', (event, fileContent) => {
+      logOutput.textContent = fileContent;
+    });
+  </script>
+</body>
+
+</html>
